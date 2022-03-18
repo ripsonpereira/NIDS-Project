@@ -1,4 +1,23 @@
  <!-- Navbar Starts -->
+ <script language="Javascript">
+    
+    function OnShowData()
+    {
+        document.Form.action = "data"
+        document.Form.target = "_blank";    // Open in a new window
+        document.Form.submit();             // Submit the page
+        return true;
+    }
+    
+    function OnPredict()
+    {
+        document.Form.action = "predict"
+        document.Form.target = "_blank";    // Open in a new window
+        document.Form.submit();             // Submit the page
+        return true;
+    }
+    
+    </script>
  <section id="nav-bar">
      <nav class="navbar navbar-expand-lg navbar-light bg-light">
      <a class="navbar-brand font-weight-bold" href="#" style="color: yellow;">NIDS</a>
@@ -26,7 +45,11 @@
      </section>
      <!-- Navbar Ends -->
 
-<form action="data"method="post">
+<form method="post" name="Form">
      <input type="file"name="csvfile"value=''>
-     <input type="submit"name=""value='submit'>
+     
+     <INPUT type="button" value="Show Data" name=button1 onclick="OnShowData();">
+     <INPUT type="button" value="Show Prediction" name=button2 onclick="OnPredict();">
+        
 </form>
+

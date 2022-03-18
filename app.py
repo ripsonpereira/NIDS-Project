@@ -37,37 +37,42 @@ lstm.make_predict_function()
 
 l1=[80.0, 1901423.0, 2.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1901423.0, 0.0, 1901423.0, 1901423.0, 1901423.0, 1901423.0, 0.0, 1901423.0, 1901423.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 64.0, 0.0, 1.0518438033, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, -1.0, 0.0, 32.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 print(len(l1))
-prediction =lstm.predict(l1)
+prediction =lstm.predict([l1])
 print(prediction)
+label = int(np.argmax(prediction, axis=-1))
+print(label)
+labels={0: 'Benign', 4: 'DDOS attack-HOIC', 1: 'Bot', 8: 'FTP-BruteForce', 10: 'SSH-Bruteforce', 6: 'DoS attacks-GoldenEye', 7: 'DoS attacks-Slowloris', 5: 'DDOS attack-LOIC-UDP', 2: 'Brute Force -Web', 3: 'Brute Force -XSS', 9: 'SQL Injection'}
+print(labels[label])
 
 @app.route('/',methods=['GET','POST'])
 def index():
     return render_template("index1.html")
 
-# @app.route('/predict',methods=['POST','GET'])
-# def predict():
-#     if request.method=='GET':
-#         return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
-#     if request.method=='POST':
-#         # print("kjnk")
+@app.route('/predict',methods=['POST','GET'])
+def predict():
+    if request.method=='GET':
+        return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
+    if request.method=='POST':
+        
     
-#         f=request.form['csvfile']
+        f=request.form['csvfile']
        
-#         data=[]
-#         with open(f) as file:
-#             csvfile=csv.reader(file)
-#             for row in csvfile:
-#                 data.append(row)
+        data=[]
+        with open(f) as file:
+            csvfile=csv.reader(file)
+            for row in csvfile:
+                data.append(*row)
+            data=[float(i) for i in data]
+            data.pop(0)
 #         data=pd.DataFrame(data)
-#         prediction =lstm.predict(data)
-#         labels = np.argmax(prediction, axis=-1)
-#         label_encoder = LabelEncoder()
-#         labels=label_encoder.inverse_transform(labels)    
-#         print(labels)
-
+        print(len(data))
+        prediction =lstm.predict([data])
+        label = int(np.argmax(prediction, axis=-1))
+        print(labels[label])
+        label=(labels[label])
        
         
-#         return render_template("data.html",data=data.to_html())
+        return render_template("prediction.html",prediction=label)
 
     
 
@@ -76,8 +81,7 @@ def index():
 def show():
     return render_template("test.html")
 
-# plt.rcParams["figure.figsize"] = [7.50, 3.50]
-# plt.rcParams["figure.autolayout"] = True
+
 
 @app.route('/graph')
 def plot_png():
@@ -95,7 +99,7 @@ def data():
     if request.method=='GET':
         return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
     if request.method=='POST':
-        # print("kjnk")
+
     
         f=request.form['csvfile']
        
@@ -117,22 +121,27 @@ def data():
 # define a predict function as an endpoint 
 # @app.route("/predict", methods=["GET","POST"])
 # def predict():
-#     data = {"success": False}
+#         if request.method=='GET':
+#             return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
+#         if request.method=='POST':
 
-#     params = flask.request.json
-#     if (params == None):
-#         params = flask.request.args
+        
+#             f=request.form['csvfile']
+        
+#             data=[]
+#             with open(f) as file:
+#                 csvfile=csv.reader(file)
+#                 for row in csvfile:
+#                     data.append(row)
+#             data=pd.DataFrame(data)
+            
+#             data=data.values.tolist()
+#             # print(data)
+#             # data=data
+#             # prediction = lstm.predict(data)[0][0]
+            
 
-#     # if parameters are found, return a prediction
-#     if (params != None):
-#         x=pd.DataFrame.from_dict(params, orient='index').transpose()
-#         with graph.as_default():
-#             data["prediction"] = str(model.predict(x)[0][0])
-#             data["success"] = True
-
-#     # return a response in json format 
-#     return flask.jsonify(data)    
-
+#         return render_template("prediction.html",prediction=data)
 
    
 if __name__=="__main__":

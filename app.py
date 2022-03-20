@@ -1,4 +1,6 @@
+from turtle import right
 from flask import Flask, render_template, request
+from matplotlib.transforms import Bbox
 import pandas as pd
 import csv
 import io
@@ -15,6 +17,9 @@ import tensorflow as tf
 import keras
 from keras.models import load_model
 
+import seaborn as sns
+import matplotlib.pyplot as plt
+from collections import Counter
 # plt.rcParams["figure.figsize"] = [7.50, 3.50]
 # plt.rcParams["figure.autolayout"] = True
 
@@ -48,31 +53,31 @@ print(labels[label])
 def index():
     return render_template("index1.html")
 
-@app.route('/predict',methods=['POST','GET'])
-def predict():
-    if request.method=='GET':
-        return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
-    if request.method=='POST':
+# @app.route('/predict',methods=['POST','GET'])
+# def predict():
+#     if request.method=='GET':
+#         return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
+#     if request.method=='POST':
         
     
-        f=request.form['csvfile']
+#         f=request.form['csvfile']
        
-        data=[]
-        with open(f) as file:
-            csvfile=csv.reader(file)
-            for row in csvfile:
-                data.append(*row)
-            data=[float(i) for i in data]
-            data.pop(0)
-#         data=pd.DataFrame(data)
-        print(len(data))
-        prediction =lstm.predict([data])
-        label = int(np.argmax(prediction, axis=-1))
-        print(labels[label])
-        label=(labels[label])
+#         data=[]
+#         with open(f) as file:
+#             csvfile=csv.reader(file)
+#             for row in csvfile:
+#                 data.append(*row)
+#             data=[float(i) for i in data]
+#             data.pop(0)
+# #         data=pd.DataFrame(data)
+#         print(len(data))
+#         prediction =lstm.predict([data])
+#         label = int(np.argmax(prediction, axis=-1))
+#         print(labels[label])
+#         label=(labels[label])
        
         
-        return render_template("prediction.html",prediction=label)
+#         return render_template("prediction.html",prediction=label)
 
     
 
@@ -118,30 +123,55 @@ def data():
 
 
 
-# define a predict function as an endpoint 
-# @app.route("/predict", methods=["GET","POST"])
-# def predict():
-#         if request.method=='GET':
-#             return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
-#         if request.method=='POST':
+# predict for multiple rows
+@app.route("/predict", methods=["GET","POST"])
+def predict():
+        if request.method=='GET':
+            return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
+        if request.method=='POST':
 
         
-#             f=request.form['csvfile']
+            f=request.form['csvfile']
         
-#             data=[]
-#             with open(f) as file:
-#                 csvfile=csv.reader(file)
-#                 for row in csvfile:
-#                     data.append(row)
-#             data=pd.DataFrame(data)
+            data=[]
+            with open(f) as file:
+                csvfile=csv.reader(file)
+                for row in csvfile:
+                    data.append(row)
+            data=pd.DataFrame(data)
+            data = data.iloc[1:30]
+            data=data.values.tolist()
+            data = [[float(s) for s in row] for row in data]
+
+            prediction = lstm.predict(data)
+            label = np.argmax(prediction, axis=-1)
+            l=list(labels[i] for i in label)
+            sns_bar = sns.countplot(l)
+          
+            fig1 = sns_bar.get_figure()
+            fig1.savefig('static/bar.png')
+            c=Counter(l)
+            x=list(c.values())
+            y=list(c.keys())
+            print(x)
+            print(y)
+            plt.clf()
+
+            plt.pie(x,labels=y,autopct='%1.2f%%')
+            plt.pie(x,labels=y)
+
+            plt.savefig("static/pie.png")
+          
+            # plt.show()
             
-#             data=data.values.tolist()
-#             # print(data)
-#             # data=data
-#             # prediction = lstm.predict(data)[0][0]
+            
+            # plt.savefig('pie.png',bbox_inches="tight",transparent = False,)
+            d=pd.DataFrame(l)
+            # z=[*zip(data,l)]
+
             
 
-#         return render_template("prediction.html",prediction=data)
+        return render_template("prediction.html",prediction=d.to_html() )
 
    
 if __name__=="__main__":

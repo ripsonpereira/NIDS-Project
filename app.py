@@ -27,15 +27,15 @@ app = Flask(__name__)
 
 # we need to redefine our metric function in order 
 # to use it when loading the model 
-def auc(y_true, y_pred):
-    auc = tf.metrics.auc(y_true, y_pred)[1]
-    keras.backend.get_session().run(tf.local_variables_initializer())
-    return auc
+# def auc(y_true, y_pred):
+#     auc = tf.metrics.auc(y_true, y_pred)[1]
+#     keras.backend.get_session().run(tf.local_variables_initializer())
+#     return auc
 
-# load the model, and pass in the custom metric function
-global graph
-# graph = tf.get_default_graph()
-graph = tf.compat.v1.get_default_graph
+# # load the model, and pass in the custom metric function
+# global graph
+# # graph = tf.get_default_graph()
+# graph = tf.compat.v1.get_default_graph
 # lstm = load_model('lstm.h5', custom_objects={'auc': auc})
 lstm = load_model('lstm.h5')
 lstm.make_predict_function()
@@ -147,6 +147,8 @@ def predict():
             label = np.argmax(prediction, axis=-1)
             l=list(labels[i] for i in label)
             sns_bar = sns.countplot(l)
+            sns_bar.set_xticklabels(sns_bar.get_xticklabels(), rotation=40, ha="right")
+            plt.tight_layout()
           
             fig1 = sns_bar.get_figure()
             fig1.savefig('static/bar.png')

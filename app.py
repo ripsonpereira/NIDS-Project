@@ -88,16 +88,7 @@ def show():
 
 
 
-@app.route('/graph')
-def plot_png():
-   fig = Figure()
-   axis = fig.add_subplot(1, 1, 1)
-   xs = np.random.rand(100)
-   ys = np.random.rand(100)
-   axis.plot(xs, ys)
-   output = io.BytesIO()
-   FigureCanvas(fig).print_png(output)
-   return Response(output.getvalue(), mimetype='image/png')
+
 
 @app.route('/data',methods=['POST','GET'])
 def data():
@@ -107,6 +98,7 @@ def data():
 
     
         f=request.form['csvfile']
+        
        
         data=[]
         with open(f) as file:
@@ -132,6 +124,8 @@ def predict():
 
         
             f=request.form['csvfile']
+            
+            
         
             data=[]
             with open(f) as file:
@@ -139,6 +133,7 @@ def predict():
                 for row in csvfile:
                     data.append(row)
             data=pd.DataFrame(data)
+            X=data
             data = data.iloc[1:30]
             data=data.values.tolist()
             data = [[float(s) for s in row] for row in data]
@@ -149,7 +144,7 @@ def predict():
             sns_bar = sns.countplot(l)
           
             fig1 = sns_bar.get_figure()
-            fig1.savefig('static/bar.png')
+            fig1.savefig('static/images/bar.png')
             c=Counter(l)
             x=list(c.values())
             y=list(c.keys())
@@ -160,7 +155,7 @@ def predict():
             plt.pie(x,labels=y,autopct='%1.2f%%')
             plt.pie(x,labels=y)
 
-            plt.savefig("static/pie.png")
+            plt.savefig("static/images/pie.png")
           
             # plt.show()
             
@@ -171,7 +166,7 @@ def predict():
 
             
 
-        return render_template("prediction.html",prediction=d.to_html() )
+        return render_template("prediction.html", data=X.to_html(),prediction=d.to_html() )
 
    
 if __name__=="__main__":

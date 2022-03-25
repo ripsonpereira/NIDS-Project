@@ -1,6 +1,7 @@
-{{prediction|safe}}
 
-<img src="{{ url_for('static', filename='bar.png') }}" alt="Resultado final" style="width:100%">
-<img src="{{ url_for('static', filename='pie.png') }}" alt="Resultado final" style="width:100%">
-<!-- <img src="{{url_for('static', filename='prediction_plots/bar.png')}}"> -->
-<!-- <img src="../prediction_plots/pie.png" alt="pie graph of data"> -->
+
+<img src="{{ url_for('static', filename='bar.png') }}" alt="Resultado final" >
+<img src="{{ url_for('static', filename='pie.png') }}" alt="Resultado final" >
+
+{{data|safe}}
+{{prediction|safe}}

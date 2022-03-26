@@ -1,1 +1,87 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <title>Data </title>
+ 
+</head>
+<body >
+	  <!-- Navbar Starts -->
+	  <section id="nav-bar">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand font-weight-bold" href="#" style="color: yellow;">NIDS</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ml-auto">
+				 <li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				 </li>
+				 <li class="nav-item">
+					<a class="nav-link" href="#">kmmxsl</a>
+				 </li>
+				 <li class="nav-item">
+					<a class="nav-link" href="{{ url_for('show')}}">See data</a>
+				 </li>
+				  <li class="nav-item">
+					<a class="nav-link" href="#">Contact</a>
+				 </li>
+				 
+			</ul>
+		</div>
+		</nav>
+		</section>
+		<!-- Navbar Ends -->
 {{ data|safe }}
+</body>
+</html>
+<style>
+     body {
+    font-family: sans-serif;
+    background-image: url(data:image/jpeg;base64,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) !important;
+    background-repeat: no-repeat ;
+    background-size: 100% 100%;
+    }
+
+    table {
+        overflow: auto;
+  font-family: 'Arial';
+  margin: 25px auto;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+  border-bottom: 2px solid #00cccc;
+  box-shadow: 0px 0px 20px rgba(0,0,0,0.10),
+     0px 10px 20px rgba(0,0,0,0.05),
+     0px 20px 20px rgba(0,0,0,0.05),
+     0px 30px 20px rgba(0,0,0,0.05);
+  /* tr {
+     tr:hover {
+      background: #f4f4f4;
+      
+      td {
+        color: #555;
+      } */
+    /* } */
+  }
+  th, td {
+    color: rgb(36, 33, 33);
+    border: 1px solid #eee;
+    padding: 12px 35px;
+    border-collapse: collapse;
+  }
+  th {
+    background: #00cccc;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 12px;
+    /* &.last {
+      border-right: none;
+    } */
+  }
+/* } */
+</style>

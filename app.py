@@ -28,7 +28,7 @@ app = Flask(__name__)
 
 
 
-lstm = load_model('lstm.h5')
+lstm = load_model('lstm1.h5')
 lstm.make_predict_function()
 
 

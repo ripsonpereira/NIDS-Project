@@ -8,9 +8,20 @@
 
 
 
+<div class="row align-items-md-stretch" style="align-items: center;">
+  <!-- <div class="col-md-12"> -->
+    <div class="text-white p-5 bg-dark rounded-3">
+      <h2>Summary</h2>
+      <h3>From the analysis of above graphs we can see that the provided data has </h3>
+         {% for k,v in c.items() %}
+        <li>{{v}} {{k}} attacks</li> 
+        {% endfor %}
+      
+      
+    </div>
+  </div>
 {{data|safe}}
 {{prediction|safe}}
-
 
 
 <style>

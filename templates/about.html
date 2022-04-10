@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}data{% endblock %}
+{% block main %}
+<div class="row align-items-md-stretch">
+    <!-- <div class="col-md-12"> -->
+      <div class="text-white p-5 bg-dark rounded-3">
+      <h1 class="display-5 fw-bold">About us</h1>
+     
+<h3>This project could be used by companies to analyse and examine their network flows to find out if the network had been under attack</h3>
+<p>This is a Research based project for identifying a suitable model for detecting and classifying the anomalies in the netowork data</p>
+<h4>Steps to use</h4>
+<li>upload a csv file consisting of one or more rows of packet data</li>
+<li>click on show data to see the uploaded data or click on show prediction to predict the labels for the uploaded rows of data packets</li>
+<li>analyse the graphs to check the percentage and count of the anomalus packets in the data</li>
+<li>review your uploaded data and check the predicted labels for each column</li>
+
+<h2>Dataset used</h2>
+<p>We used the latest available network data from canadian institute of cyber security which is collected by capturing network flows using wireshark packet capture tool for a series of days simulating real life enviornment
+    this captured data was converted into xml which was further converted to csv files for our use. The data set countained roughly 62 lakh rows and 80 columns and 11 different classification labels
+</p>
+
+
+<h5>From our research we found that LSTM neural networks was the most reliable model for detecting and clasifying network anomalies</h5>
+    </div>
+  </div>
+<style>
+    p{
+        color: blanchedalmond;
+    }
+</style>
+{% endblock %}

@@ -1,5 +1,5 @@
 from distutils.log import debug
-from turtle import right
+# from turtle import right
 from flask import Flask, render_template, request
 from matplotlib.transforms import Bbox
 import pandas as pd
@@ -12,9 +12,11 @@ import numpy as np
 
 from sklearn.preprocessing import LabelEncoder
 
-import flask
+# import flask
 import pandas as pd
 import tensorflow as tf
+# from tensorflow import keras
+
 import keras
 from keras.models import load_model
 
@@ -23,7 +25,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 
 
@@ -35,12 +37,12 @@ lstm.make_predict_function()
 labels={0: 'Benign', 4: 'DDOS attack-HOIC', 1: 'Bot', 8: 'FTP-BruteForce', 10: 'SSH-Bruteforce', 6: 'DoS attacks-GoldenEye', 7: 'DoS attacks-Slowloris', 5: 'DDOS attack-LOIC-UDP', 2: 'Brute Force -Web', 3: 'Brute Force -XSS', 9: 'SQL Injection'}
 
 
-@app.route('/',methods=['GET','POST'])
+@application.route('/', methods=['GET', 'POST'])
 def index():
     return render_template("index.html")
 
 #predict for single row
-@app.route('/predict_1',methods=['POST','GET'])
+@application.route('/predict_1', methods=['POST', 'GET'])
 def predict_1():
     if request.method=='GET':
         return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
@@ -69,15 +71,15 @@ def predict_1():
     
 
 
-@app.route("/show")
-def show():
-    return render_template("index.html")
+@application.route("/about")
+def about():
+    return render_template("about.html")
 
 
 
 
 
-@app.route('/data',methods=['POST','GET'])
+@application.route('/data', methods=['POST', 'GET'])
 def data():
     if request.method=='GET':
         return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
@@ -103,7 +105,7 @@ def data():
 
 
 # predict for multiple rows
-@app.route("/predict", methods=["GET","POST"])
+@application.route("/predict", methods=["GET", "POST"])
 def predict():
         if request.method=='GET':
             return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
@@ -137,8 +139,8 @@ def predict():
             c=Counter(l)
             x=list(c.values())
             y=list(c.keys())
-            print(x)
-            print(y)
+            # print(x)
+            # print(y)
             plt.clf()
 
             plt.pie(x,labels=y,autopct='%1.2f%%')
@@ -146,12 +148,14 @@ def predict():
 
             plt.savefig("static/images/pie.png",transparent=True)
             d=pd.DataFrame(l)
+            # print(dict(c))
+            count=dict(c)
             
 
-        return render_template("prediction.html", data=X.to_html(),prediction=d.to_html() )
+        return render_template("prediction.html", data=X.to_html(),prediction=d.to_html(),c=count )
 
    
 if __name__=="__main__":
     debug=True
-    app.run(debug=True)
+    application.run()
 

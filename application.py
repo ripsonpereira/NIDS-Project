@@ -1,5 +1,5 @@
 from distutils.log import debug
-# from turtle import right
+
 from flask import Flask, render_template, request
 from matplotlib.transforms import Bbox
 import pandas as pd
@@ -12,10 +12,10 @@ import numpy as np
 
 from sklearn.preprocessing import LabelEncoder
 
-# import flask
+
 import pandas as pd
 import tensorflow as tf
-# from tensorflow import keras
+
 
 import keras
 from keras.models import load_model
@@ -41,32 +41,6 @@ labels={0: 'Benign', 4: 'DDOS attack-HOIC', 1: 'Bot', 8: 'FTP-BruteForce', 10: '
 def index():
     return render_template("index.html")
 
-#predict for single row
-@application.route('/predict_1', methods=['POST', 'GET'])
-def predict_1():
-    if request.method=='GET':
-        return  f"The URL /data is accessed directly. Try going to '/form' to submit form"
-    if request.method=='POST':
-        
-    
-        f=request.form['csvfile']
-       
-        data=[]
-        with open(f) as file:
-            csvfile=csv.reader(file)
-            for row in csvfile:
-                data.append(*row)
-            data=[float(i) for i in data]
-            data.pop(0)
-        data=pd.DataFrame(data)
-        
-        prediction =lstm.predict([data])
-        label = int(np.argmax(prediction, axis=-1))
-        
-        label=(labels[label])
-       
-        
-        return render_template("prediction.html",prediction=label)
 
     
 
@@ -74,6 +48,10 @@ def predict_1():
 @application.route("/about")
 def about():
     return render_template("about.html")
+
+@application.route("/graphs")
+def graphs():
+    return render_template("graphs.html")
 
 
 
@@ -115,7 +93,7 @@ def predict():
             f=request.form['csvfile']
             
             
-        
+            plt.clf()
             data=[]
             with open(f) as file:
                 csvfile=csv.reader(file)

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}graphs{% endblock %}
+{% block main %}
+
+<h2>Initial class distribution of the dataset</h2>
+<span><img src="{{ url_for('static', filename='images/label_count.png') }}" alt="label count graph" ></span>
+<br>
+
+<h2>class distribution after sampling</h2>
+<span><img src="{{ url_for('static', filename='images/label_distribution_aftr_sampling.png') }}" alt="distribution graph" ></span>
+
+<h2>LSTM accuracy vs epoches</h2>
+<span><img src="{{ url_for('static', filename='images/lstm_acc.png') }}" alt="lstm acc" ></span>
+
+<h2>LSTM loss vs epochhes</h2>
+<span><img src="{{ url_for('static', filename='images/lstm_loss.png') }}" alt="distribution graph" ></span>
+
+<style>
+    body {
+  font-family: sans-serif;
+  background-image: url(static/images/bg.jpg) !important;
+  background-repeat: no-repeat ;
+  background-size: 100% 100%;
+  }
+  table {
+font-family: 'Arial';
+margin: 25px auto;
+border-collapse: collapse;
+border: 1px solid #eee;
+border-bottom: 2px solid #00cccc;
+box-shadow: 0px 0px 20px rgba(0,0,0,0.10),
+   0px 10px 20px rgba(0,0,0,0.05),
+   0px 20px 20px rgba(0,0,0,0.05),
+   0px 30px 20px rgba(0,0,0,0.05);
+table-layout: 100%;
+/* tr {
+   tr:hover {
+    background: #f4f4f4;
+    
+    td {
+      color: #555;
+    } */
+  /* } */
+}
+th, td {
+  color:  rgb(36, 33, 33);
+  border: 1px solid #eee;
+  padding: 12px 35px;
+  border-collapse: collapse;
+}
+th {
+  background: #00cccc;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 12px;
+  /* &.last {
+    border-right: none;
+  } */
+}
+/* } */
+</style>
+
+
+
+
+{% endblock %}
